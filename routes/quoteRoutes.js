@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendQuoteEmail } from '../Controllers/quoteControllers.js'; // .js சேர்க்க வேண்டும்
+import { sendQuoteEmail } from '../Controllers/quoteControllers.js'; 
 
 const router = express.Router();
 
