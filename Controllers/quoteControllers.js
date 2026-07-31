@@ -5,7 +5,7 @@ export const sendQuote = async (req, res) => {
   try {
     const { name, email, phone, company, truckType, bodyType, city, message } = req.body;
 
-    // Validation
+    // 1. Validation
     if (!name || !email || !phone || !truckType) {
       return res.status(400).json({
         success: false,
@@ -13,7 +13,7 @@ export const sendQuote = async (req, res) => {
       });
     }
 
-    // Save Data in MongoDB
+    // 2. Save Data in MongoDB
     const newQuote = await Quote.create({
       name,
       email,
@@ -25,7 +25,14 @@ export const sendQuote = async (req, res) => {
       message: message || "",
     });
 
-    // Nodemailer Setup
+    // 3. Immediately Send Success Response to Frontend (Fast Response Time)
+    res.status(201).json({
+      success: true,
+      message: "Quote request submitted successfully!",
+      data: newQuote,
+    });
+
+    // 4. Send Email in Background (Non-blocking)
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -34,7 +41,6 @@ export const sendQuote = async (req, res) => {
       },
     });
 
-    // Email Content
     const mailOptions = {
       from: process.env.EMAIL,
       to: process.env.EMAIL, 
@@ -52,13 +58,10 @@ export const sendQuote = async (req, res) => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
-
-    return res.status(201).json({
-      success: true,
-      message: "Quote request submitted & email sent successfully!",
-      data: newQuote,
-    });
+    // async/await இல்லாமல் பின்புலத்தில் இயங்கும்
+    transporter.sendMail(mailOptions)
+      .then(() => console.log(`📧 Email sent successfully for quote: ${newQuote._id}`))
+      .catch((mailErr) => console.error("🚨 Nodemailer Error (Background):", mailErr));
 
   } catch (err) {
     console.error("🚨 Quote Controller Error:", err);
