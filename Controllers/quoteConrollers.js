@@ -1,5 +1,5 @@
 // Controllers/quoteConrolleimport Quote from "../models/quote.js";  // Small q ஆக மாற்றவும்
-import Quote from "../models/quote.js";  
+import Quote from "../Models/quote.js";  
 
 export const sendQuote = async (req, res) => {
   try {
