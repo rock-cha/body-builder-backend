@@ -17,18 +17,26 @@ app.use(express.json());
 app.use("/api/quote", quoteRoutes);
 app.use("/api/reviews", reviewRoutes);
 
-// Database Connection & Server Listen
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
+// Root route (Render health check-க்காக)
+app.get("/", (req, res) => {
+  res.send("Backend Server is Running...");
+});
 
+const PORT = process.env.PORT || 5000;
+
+// MongoDB Connection
 mongoose
-  .connect(MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 5000, // 5 வினாடிகளுக்குள் டேட்டாபேஸ் இணையவில்லை என்றால் Error காட்டும்
+  })
   .then(() => {
     console.log("MongoDB Atlas Connected Successfully! 🍃");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
   })
   .catch((err) => {
     console.error("MongoDB Connection Error ❌:", err.message);
   });
+
+// Server-ஐ தனியாக Listen செய்ய வைக்க வேண்டும் (Database தாமதமானாலும் Server ஆன் ஆகும்)
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
