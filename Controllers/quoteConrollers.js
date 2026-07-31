@@ -29,15 +29,15 @@ export const sendQuote = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL,      // superbodybuilders007@gmail.com
-        pass: process.env.EMAIL_PASS, // ibqqkurfdyzcpsfx (App Password)
+        user: process.env.EMAIL,      
+        pass: process.env.EMAIL_PASS, 
       },
     });
 
     // 4. Email Content
     const mailOptions = {
       from: process.env.EMAIL,
-      to: process.env.EMAIL, // உங்களுக்கே Mail வர
+      to: process.env.EMAIL, 
       subject: `🚚 New Quote Request from ${name}`,
       html: `
         <h2>New Quote Request Details</h2>
