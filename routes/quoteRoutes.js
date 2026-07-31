@@ -1,8 +1,9 @@
-import express from "express";
-import { sendQuote } from "../Controllers/quoteControllers";
+import express from 'express';
+import { sendQuoteEmail } from '../Controllers/quoteControllers.js'; // .js சேர்க்க வேண்டும்
 
 const router = express.Router();
 
-router.post("/", sendQuote);
+// POST /api/quote
+router.post('/quote', sendQuoteEmail);
 
 export default router;
