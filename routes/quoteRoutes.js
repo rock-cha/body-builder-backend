@@ -1,10 +1,8 @@
 import express from "express";
-import { sendQuote } from "../Controllers/quoteConrollers.js"
+import { sendQuote } from "../controllers/quoteController.js";
 
 const router = express.Router();
 
-
 router.post("/", sendQuote);
-
 
 export default router;

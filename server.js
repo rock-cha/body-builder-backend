@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import quoteRoutes from "./routes/quoteRoutes.js";
-import reviewRoutes from "./routes/reviewRoutes.js"; // Import Review Routes
+import reviewRoutes from "./routes/reviewRoutes.js";
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ app.use(express.json());
 
 // API Routes
 app.use("/api/quote", quoteRoutes);
-app.use("/api/reviews", reviewRoutes); // Review API Route Added
+app.use("/api/reviews", reviewRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

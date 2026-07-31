@@ -1,11 +1,11 @@
-import Quote from "../Models/Quote.js";
+import Quote from "../models/Quote.js";
 import nodemailer from "nodemailer";
 
 export const sendQuote = async (req, res) => {
   try {
     const { name, email, phone, company, truckType, bodyType, city, message } = req.body;
 
-    // 1. Required Fields Validation
+    // Validation
     if (!name || !email || !phone || !truckType) {
       return res.status(400).json({
         success: false,
@@ -13,7 +13,7 @@ export const sendQuote = async (req, res) => {
       });
     }
 
-    // 2. Save Data in MongoDB
+    // Save Data in MongoDB
     const newQuote = await Quote.create({
       name,
       email,
@@ -25,7 +25,7 @@ export const sendQuote = async (req, res) => {
       message: message || "",
     });
 
-    // 3. Setup Nodemailer Transporter (Using .env variables)
+    // Nodemailer Setup
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -34,7 +34,7 @@ export const sendQuote = async (req, res) => {
       },
     });
 
-    // 4. Email Content
+    // Email Content
     const mailOptions = {
       from: process.env.EMAIL,
       to: process.env.EMAIL, 
@@ -52,7 +52,6 @@ export const sendQuote = async (req, res) => {
       `,
     };
 
-    // 5. Send Email
     await transporter.sendMail(mailOptions);
 
     return res.status(201).json({

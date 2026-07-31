@@ -1,6 +1,5 @@
-import Review from "../Models/Review.js";
+import Review from "../models/Review.js";
 
-// Save a new review
 export const addReview = async (req, res) => {
   try {
     const { name, phone, truckModel, rating, review } = req.body;
@@ -34,7 +33,6 @@ export const addReview = async (req, res) => {
   }
 };
 
-// Get all reviews (Latest reviews first)
 export const getReviews = async (req, res) => {
   try {
     const reviews = await Review.find().sort({ createdAt: -1 });
