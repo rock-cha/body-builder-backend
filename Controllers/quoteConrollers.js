@@ -1,4 +1,4 @@
-import Quote from "../models/Quote.js";
+import Quote from "../models/quote.js";
 import nodemailer from "nodemailer";
 
 export const sendQuote = async (req, res) => {

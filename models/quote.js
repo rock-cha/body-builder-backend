@@ -13,4 +13,4 @@ const quoteSchema = new mongoose.Schema({
 }, { timestamps: true }); 
 
 const Quote = mongoose.model("Quote", quoteSchema);
-export default Quote;
+export default quote;
